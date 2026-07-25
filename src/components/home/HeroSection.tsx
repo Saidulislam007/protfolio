@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Download, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -14,8 +14,8 @@ interface RainDrop {
   opacity: number;
 }
 
-// Word-by-Word Animation Variants (100% Type-Safe)
-const sentenceVariants: Variants = {
+// Sentence Animation Variant
+const sentenceVariants = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
@@ -23,10 +23,10 @@ const sentenceVariants: Variants = {
       staggerChildren: 0.12,
     },
   },
-};
+} as const;
 
-// ✅ স্থায়ী সমাধান:
-const wordVariants: Variants = {
+// Word-by-Word Animation Variant (Type-Safe Fix)
+const wordVariants = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -36,10 +36,10 @@ const wordVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as any, // <-- as any ব্যবহার করলে টাইপচেকার আর আটকাবে না
+      ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
     },
   },
-};
+} as const;
 
 // Custom Social SVG Components
 function GitHubIcon({ className }: { className?: string }) {
