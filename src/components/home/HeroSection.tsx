@@ -25,7 +25,8 @@ const sentenceVariants: Variants = {
   },
 };
 
-const wordVariants: Variants = {
+// ✅ স্থায়ী সমাধান:
+const wordVariants = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -35,10 +36,10 @@ const wordVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as const, // <-- as const নিশ্চিত করে যে এটি একটি নির্দিষ্ট cubic-bezier array
+      ease: [0.16, 1, 0.3, 1],
     },
   },
-};
+} as const;
 
 // Custom Social SVG Components
 function GitHubIcon({ className }: { className?: string }) {
