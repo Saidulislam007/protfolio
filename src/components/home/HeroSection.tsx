@@ -25,8 +25,6 @@ const sentenceVariants: Variants = {
   },
 };
 
-
-
 const wordVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -37,7 +35,7 @@ const wordVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as const,
+      ease: [0.16, 1, 0.3, 1] as const, // <-- as const নিশ্চিত করে যে এটি একটি নির্দিষ্ট cubic-bezier array
     },
   },
 };
@@ -89,7 +87,6 @@ const SOCIAL_LINKS = [
 export default function HeroSection() {
   const [rainDrops, setRainDrops] = useState<RainDrop[]>([]);
 
-  // Safely generate raindrops on client-side
   useEffect(() => {
     const drops: RainDrop[] = Array.from({ length: 45 }).map((_, index) => ({
       id: index,
