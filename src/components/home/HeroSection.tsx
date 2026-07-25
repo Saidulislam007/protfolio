@@ -63,13 +63,6 @@ function LinkedInIcon({ className }: { className?: string }) {
   );
 }
 
-function TwitterIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
 
 function FacebookIcon({ className }: { className?: string }) {
   return (
@@ -80,10 +73,10 @@ function FacebookIcon({ className }: { className?: string }) {
 }
 
 const SOCIAL_LINKS = [
-  { name: 'GitHub', href: 'https://github.com', icon: GitHubIcon },
-  { name: 'LinkedIn', href: 'https://linkedin.com', icon: LinkedInIcon },
-  { name: 'Twitter', href: 'https://twitter.com', icon: TwitterIcon },
-  { name: 'Facebook', href: 'https://facebook.com', icon: FacebookIcon },
+  { name: 'GitHub', href: 'https://github.com/Saidulislam007', icon: GitHubIcon },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/saidulislam007', icon: LinkedInIcon },
+  
+  { name: 'Facebook', href: 'https://www.facebook.com/saidul.islam.519928', icon: FacebookIcon },
 ];
 
 export default function HeroSection() {
@@ -146,34 +139,48 @@ export default function HeroSection() {
             <span>Available for High-Impact Roles</span>
           </motion.div>
 
-          {/* Word-by-Word Animated Heading */}
-          <motion.h1
-            variants={sentenceVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-3xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-light tracking-tight leading-[1.08] text-neutral-900 dark:text-neutral-100 flex flex-wrap gap-x-3.5 gap-y-1"
-          >
-            <motion.span variants={wordVariants}>Crafting</motion.span>
-            
-            <motion.span
-              variants={wordVariants}
-              className="font-serif italic font-normal text-neutral-500 dark:text-neutral-400"
-            >
-              digital
-            </motion.span>
-            
-            <motion.span
-              variants={wordVariants}
-              className="font-serif italic font-normal text-neutral-500 dark:text-neutral-400"
-            >
-              experiences
-            </motion.span>
-            
-            <motion.span variants={wordVariants}>with</motion.span>
-            <motion.span variants={wordVariants}>precision</motion.span>
-            <motion.span variants={wordVariants}>&</motion.span>
-            <motion.span variants={wordVariants}>purpose.</motion.span>
-          </motion.h1>
+          {/* Updated Animated Heading */}
+<motion.h1
+  variants={sentenceVariants}
+  initial="hidden"
+  animate="visible"
+  className="tracking-tight leading-[1.1] flex flex-wrap gap-x-3.5 gap-y-2"
+>
+  {/* Intro Tagline (Smaller Accent Text) */}
+  <span className="w-full text-lg sm:text-2xl font-medium text-sky-500 dark:text-sky-400">
+    <motion.span variants={wordVariants}>Hi,</motion.span>{' '}
+    <motion.span variants={wordVariants}>I'm</motion.span>{' '}
+    <motion.span variants={wordVariants}>Saidul</motion.span>{' '}
+    <motion.span variants={wordVariants}>Islam.</motion.span>
+  </span>
+
+  {/* Main H1 Title */}
+  <span className="w-full text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold text-neutral-900 dark:text-neutral-100 flex flex-wrap gap-x-3.5">
+    <motion.span variants={wordVariants}>Full-Stack</motion.span>{' '}
+    <motion.span variants={wordVariants}>Developer.</motion.span>
+  </span>
+
+  {/* Sub-heading / Value Proposition */}
+  <span className="w-full text-xl sm:text-3xl md:text-4xl font-light text-neutral-600 dark:text-neutral-300 flex flex-wrap gap-x-2 sm:gap-x-3 pt-1">
+    <motion.span variants={wordVariants}>Building</motion.span>
+    <motion.span 
+      variants={wordVariants} 
+      className="font-serif italic text-neutral-500 dark:text-neutral-400"
+    >
+      Fast,
+    </motion.span>
+    <motion.span 
+      variants={wordVariants} 
+      className="font-serif italic text-neutral-500 dark:text-neutral-400"
+    >
+      Scalable
+    </motion.span>
+    <motion.span variants={wordVariants}>&</motion.span>
+    <motion.span variants={wordVariants}>Impactful</motion.span>
+    <motion.span variants={wordVariants}>Web</motion.span>
+    <motion.span variants={wordVariants}>Apps.</motion.span>
+  </span>
+</motion.h1>
 
           {/* Subtitle */}
           <motion.p
@@ -251,7 +258,7 @@ export default function HeroSection() {
           <div className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[4/5] rounded-3xl overflow-hidden border border-neutral-300/80 dark:border-neutral-800/80 bg-neutral-200/50 dark:bg-neutral-900/40 p-2 backdrop-blur-md">
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-neutral-200 dark:bg-neutral-950">
               <Image
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop"
+                src="/unnamed.jpg"
                 alt="Developer Portrait"
                 fill
                 priority
