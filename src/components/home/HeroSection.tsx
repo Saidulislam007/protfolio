@@ -26,7 +26,7 @@ const sentenceVariants: Variants = {
 };
 
 // ✅ স্থায়ী সমাধান:
-const wordVariants = {
+const wordVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -36,10 +36,10 @@ const wordVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as any, // <-- as any ব্যবহার করলে টাইপচেকার আর আটকাবে না
     },
   },
-} as const;
+};
 
 // Custom Social SVG Components
 function GitHubIcon({ className }: { className?: string }) {
