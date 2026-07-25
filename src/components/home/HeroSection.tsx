@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import type { Variants } from "framer-motion";
 import { Download, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -26,7 +27,7 @@ const sentenceVariants = {
 } as const;
 
 // Word-by-Word Animation Variant (Type-Safe Fix)
-const wordVariants = {
+const wordVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -36,10 +37,10 @@ const wordVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      ease: [0.16, 1, 0.3, 1] as const,
     },
   },
-} as const;
+};
 
 // Custom Social SVG Components
 function GitHubIcon({ className }: { className?: string }) {
