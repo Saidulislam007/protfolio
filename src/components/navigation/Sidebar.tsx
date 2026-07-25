@@ -9,50 +9,56 @@ import { NAV_ITEMS } from '@/config/navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false); // Tablet toggle
-  const [isMobileOpen, setIsMobileOpen] = useState(false); // Mobile drawer
+  const [activeHash, setActiveHash] = useState<string>('');
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Background blur opacity control on scroll
+  // Sync hash state with current URL
+  useEffect(() => {
+    // Initial load
+    if (typeof window !== 'undefined') {
+      setActiveHash(window.location.hash || '/');
+    }
+
+    const handleHashChange = () => {
+      setActiveHash(window.location.hash || '/');
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Helper function to check if item is active
+  const checkIsActive = (itemHref: string) => {
+    // For Hash links like '#contact' or '/#contact'
+    if (itemHref.startsWith('#')) {
+      return activeHash === itemHref;
+    }
+    if (itemHref.startsWith('/#')) {
+      return activeHash === itemHref.replace('/', '');
+    }
+    // For standard routes
+    if (itemHref === '/') {
+      return pathname === '/' && (activeHash === '' || activeHash === '/');
+    }
+    return pathname === itemHref;
+  };
+
+  // Scroll listener
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile drawer on resize to tablet/desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Prevent scroll when mobile drawer is open
-  useEffect(() => {
-    if (isMobileOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isMobileOpen]);
-
   return (
     <>
-      {/* ========================================== */}
-      {/* 1. MOBILE TOP BAR (320px - 767px)          */}
-      {/* ========================================== */}
+      {/* 1. MOBILE TOP BAR */}
       <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800/60 z-40 px-4 sm:px-6 flex items-center justify-between">
-        <Link href="/" className="text-sm font-light tracking-[0.2em] uppercase text-neutral-100">
+        <Link href="/" onClick={() => setActiveHash('')} className="text-sm font-light tracking-[0.2em] uppercase text-neutral-100">
           Saidul Islam<span className="text-neutral-500 font-mono">.</span>
         </Link>
 
@@ -65,13 +71,10 @@ export default function Sidebar() {
         </button>
       </header>
 
-      {/* ========================================== */}
-      {/* 2. MOBILE DRAWER OVERLAY (320px - 767px)   */}
-      {/* ========================================== */}
+      {/* 2. MOBILE DRAWER */}
       <AnimatePresence>
         {isMobileOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -80,7 +83,6 @@ export default function Sidebar() {
               className="md:hidden fixed inset-0 bg-neutral-950/80 backdrop-blur-sm z-40"
             />
 
-            {/* Slide-out Drawer */}
             <motion.aside
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
@@ -89,7 +91,6 @@ export default function Sidebar() {
               className="md:hidden fixed top-0 left-0 bottom-0 w-[280px] sm:w-[320px] bg-neutral-950 border-r border-neutral-800/80 z-50 p-6 flex flex-col justify-between"
             >
               <div className="space-y-8">
-                {/* Header */}
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-xs font-mono uppercase tracking-[0.2em] text-neutral-500">
                     Menu
@@ -102,15 +103,17 @@ export default function Sidebar() {
                   </button>
                 </div>
 
-                {/* Navigation Links */}
                 <nav className="flex flex-col space-y-2">
                   {NAV_ITEMS.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive = checkIsActive(item.href);
                     return (
                       <Link
                         key={item.href}
                         href={item.href}
-                        onClick={() => setIsMobileOpen(false)}
+                        onClick={() => {
+                          setIsMobileOpen(false);
+                          setActiveHash(item.href.replace('/', ''));
+                        }}
                         className={`px-4 py-3 rounded-xl text-base font-light transition-all duration-300 flex items-center justify-between ${
                           isActive
                             ? 'bg-neutral-900 text-neutral-100 font-normal border border-neutral-800'
@@ -124,79 +127,12 @@ export default function Sidebar() {
                   })}
                 </nav>
               </div>
-
-              {/* Drawer Footer */}
-              <div className="pt-6 border-t border-neutral-900">
-                <p className="text-xs font-mono text-neutral-600">
-                  © {new Date().getFullYear()} Minimal Portfolio
-                </p>
-              </div>
             </motion.aside>
           </>
         )}
       </AnimatePresence>
 
-      {/* ========================================== */}
-      {/* 3. TABLET COLLAPSIBLE SIDEBAR (768px - 1023px) */}
-      {/* ========================================== */}
-      <aside
-        className={`hidden md:flex lg:hidden fixed top-0 left-0 bottom-0 z-30 bg-neutral-950 border-r border-neutral-800/80 flex-col justify-between transition-all duration-500 ease-in-out ${
-          isCollapsed ? 'w-20' : 'w-64'
-        }`}
-      >
-        <div className="p-6 space-y-10">
-          <div className="flex items-center justify-between">
-            {!isCollapsed && (
-              <Link href="/" className="text-sm font-light tracking-[0.25em] uppercase text-neutral-100">
-                Saidul Islam<span className="text-neutral-500 font-mono">.</span>
-              </Link>
-            )}
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              aria-label="Toggle Sidebar"
-              className="p-2 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-900 transition-colors mx-auto"
-            >
-              {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-            </button>
-          </div>
-
-          <nav className="flex flex-col space-y-1.5">
-            {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group relative px-3.5 py-3 rounded-xl text-sm transition-all duration-300 flex items-center gap-3.5 ${
-                    isActive
-                      ? 'bg-neutral-900 text-neutral-100 font-medium border border-neutral-800'
-                      : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900/40'
-                  }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                      isActive ? 'bg-neutral-100 scale-100' : 'bg-neutral-600 scale-0 group-hover:scale-100'
-                    }`}
-                  />
-                  {!isCollapsed && <span className="font-light tracking-wide">{item.label}</span>}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-
-        <div className="p-6 border-t border-neutral-900/80">
-          {!isCollapsed ? (
-            <p className="text-[11px] font-mono text-neutral-600 tracking-wider">PORTFOLIO v2.0</p>
-          ) : (
-            <span className="block text-center text-[10px] font-mono text-neutral-600">v2</span>
-          )}
-        </div>
-      </aside>
-
-      {/* ========================================== */}
-      {/* 4. DESKTOP FLOATING NAVBAR (1024px +)      */}
-      {/* ========================================== */}
+      {/* 3. DESKTOP FLOATING NAVBAR */}
       <header
         className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
@@ -205,19 +141,18 @@ export default function Sidebar() {
         }`}
       >
         <div className="max-w-[1920px] mx-auto px-16 lg:px-24 flex items-center justify-between">
-          {/* Logo / Brand Name */}
-          <Link href="/" className="text-sm font-light tracking-[0.25em] uppercase text-neutral-100">
+          <Link href="/" onClick={() => setActiveHash('')} className="text-sm font-light tracking-[0.25em] uppercase text-neutral-100">
             Saidul Islam<span className="text-neutral-500 font-mono">.</span>
           </Link>
 
-          {/* Center Pill Navbar Links */}
           <nav className="flex items-center space-x-1 border border-neutral-800/80 rounded-full bg-neutral-900/40 backdrop-blur-md px-3 py-1.5">
             {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = checkIsActive(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setActiveHash(item.href.startsWith('/#') ? item.href.replace('/', '') : item.href)}
                   className={`relative px-5 py-2 text-xs font-light tracking-widest uppercase transition-colors duration-300 ${
                     isActive ? 'text-neutral-100' : 'text-neutral-400 hover:text-neutral-200'
                   }`}
@@ -235,7 +170,6 @@ export default function Sidebar() {
             })}
           </nav>
 
-          {/* Right Placeholder / Status */}
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-mono text-neutral-400">AVAILABLE</span>
