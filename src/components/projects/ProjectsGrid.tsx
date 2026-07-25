@@ -19,6 +19,12 @@ const PROJECTS_DATA: Project[] = [
     'Managing real-time state synchronization across multiple client sessions without layout shifts.',
     'Optimizing complex SVG canvas re-renders for large-scale node graphs.',
   ],
+  technologies: [
+  "Next.js",
+  "TypeScript",
+  "Tailwind CSS",
+  "MongoDB",
+],
   futureImprovements: [
     'Implement collaborative live-editing using WebSockets/Socket.io.',
     'Add dark-mode themes with custom CSS variables export.',
@@ -37,6 +43,12 @@ const PROJECTS_DATA: Project[] = [
     'Handling optimistic UI updates during cart state changes while ensuring accurate price calculations.',
     'Optimizing image load times and preventing Cumulative Layout Shift (CLS) on dynamic grids.',
   ],
+  technologies: [
+  "Next.js",
+  "TypeScript",
+  "Tailwind CSS",
+  "MongoDB",
+],
   futureImprovements: [
     'Integrate AI-powered personalized product recommendations.',
     'Add multi-currency and localization support.',
@@ -55,6 +67,12 @@ const PROJECTS_DATA: Project[] = [
     'Structuring aggregated MongoDB queries for fast data retrieval under heavy write loads.',
     'Securing API endpoints using JWT authentication and HTTP-only cookies.',
   ],
+  technologies: [
+  "Next.js",
+  "TypeScript",
+  "Tailwind CSS",
+  "MongoDB",
+],
   futureImprovements: [
     'Add automated PDF report generation and scheduling.',
     'Build custom dashboard widgets with drag-and-drop support.',
