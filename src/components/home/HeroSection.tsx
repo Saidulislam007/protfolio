@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Download, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -14,8 +14,8 @@ interface RainDrop {
   opacity: number;
 }
 
-// Word-by-Word Animation Variants
-const sentenceVariants = {
+// Word-by-Word Animation Variants (100% Type-Safe)
+const sentenceVariants: Variants = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
@@ -25,19 +25,19 @@ const sentenceVariants = {
   },
 };
 
-const wordVariants = {
-  hidden: { opacity: 0, y: 18 },
+const wordVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.2, 0.65, 0.3, 0.9],
+    transition: { 
+      duration: 0.6, 
+      ease: [0.16, 1, 0.3, 1],
     },
   },
 };
 
-// Custom Social SVG Components (100% Build Safe)
+// Custom Social SVG Components
 function GitHubIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -84,7 +84,7 @@ const SOCIAL_LINKS = [
 export default function HeroSection() {
   const [rainDrops, setRainDrops] = useState<RainDrop[]>([]);
 
-  // Safely generate raindrops only on Client side to prevent Hydration Errors
+  // Safely generate raindrops on client-side
   useEffect(() => {
     const drops: RainDrop[] = Array.from({ length: 45 }).map((_, index) => ({
       id: index,
@@ -103,7 +103,7 @@ export default function HeroSection() {
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e5e5_1px,transparent_1px)] dark:bg-[radial-gradient(#333333_1px,transparent_1px)] [background-size:32px_32px] opacity-40 dark:opacity-30 pointer-events-none z-0" />
 
-      {/* High-Visibility Rain Animation Layer (Client-rendered) */}
+      {/* High-Visibility Rain Animation Layer */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         {rainDrops.map((drop) => (
           <motion.div
